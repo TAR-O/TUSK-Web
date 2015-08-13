@@ -10,6 +10,9 @@ $count = 0;
 $sql = "SELECT  city, latitude, longtitude FROM locations";
 $result = $conn->query($sql);
 
+$sql = "SELECT  TIME FROM currentCondtions";
+$lastUpdate = $conn->query($sql);
+
 if ($result->num_rows > 0) 
 {
     // output data of each row
@@ -40,29 +43,47 @@ while ($tempCount < $count)
 	//getting data
 	$condition = $forecast->getCurrentConditions($Latitude[$tempCount], $Longtitude[$tempCount]);
 	$temperature = $condition->getTemperature();
-	$ApparentTemperature = $condition->getApparentTemperature();
+	$ApparentTemp = $condition->getApparentTemperature();
 	$Summary = $condition->getSummary();
 	$Icon = $condition->getIcon();
 	$Time = $condition->getTime();
-	$ressure = $condition->getPressure();
+	$Pressure = $condition->getPressure();
 	$DewPoint = $condition->getDewPoint();
+	$Humidity = $condition->getHumidity();
 	$WindSpeed = $condition->getWindSpeed();
 	$WindBearing = $condition->getWindBearing();
 	$PrecipitationType = $condition->getPrecipitationType();
 	$PrecipitationProbability = $condition->getPrecipitationProbability();
 	$CloudCover  = $condition->getCloudCover();
 
+	/*if(empty($lastUpdate)){
 	//inserting data into sql
 	$sql = "INSERT INTO currentConditions (city, temp, apparantTemp, summary, icon, time,pressure,dewPoint ,humidity,windSpeed ,windBearing, precipType, precipProb, cloudCover)
-	VALUES ('$city[$tempCount]','$temperature' ,'$ApparentTemperature' ,'$Summary','$Icon' ,'$Time' ,'$ressure' ,'$DewPoint', '$humidity', '$windSpeed' ,'$WindBearing' ,'$PrecipitationType' ,'$PrecipitationProbability' ,'$CloudCover')";
+	VALUES ('$city[$tempCount]','$temperature' ,'$ApparentTemperature' ,'$Summary','$Icon' ,'$Time' ,'$Pressure' ,'$DewPoint', '$humidity', '$windSpeed' ,'$WindBearing' ,'$PrecipitationType' ,'$PrecipitationProbability' ,'$CloudCover')";
 
-	if ($conn->query($sql) === TRUE) 
-	{
-	    echo "successfully";
-	} else {
-	    echo "Error creating table: " . $conn->error;
-	}
+		if ($conn->query($sql) === TRUE) 
+		{
+		    echo "successfully";
+		} else {
+		    echo "Error creating table: " . $conn->error;
+		}
+	} else { */
+		//if($lastUpdate )
+		$sql = "UPDATE currentConditions
+		    		SET temp = '$temperature', apparantTemp = '$ApparantTemp', 
+		    			summary = '$Summary', icon = '$Icon', time = '$Time' ,
+		    			pressure = '$Pressure', dewPoint = '$DewPoint', humidity = '$Humidity' ,
+		    			windSpeed = '$WindSpeed', windBearing = '$WindBearing', precipType = '$PrecipitationType',
+		    			precipProb = '$PrecipitationProbability', cloudCover = '$CloudCover'   
+		    		WHERE city = '$city[$tempCount]'";
 
+		if ($conn->query($sql) === TRUE) 
+		{
+		    echo "successfully";
+		} else {
+		    echo "Error updating table: " . $conn->error;
+		}
+	//}
 	$tempCount++;
 }
 

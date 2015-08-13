@@ -4,14 +4,14 @@ $db = new DB_CONNECT();
 $conn = $db->connect();
 
 $respnse = array();
-
+$city = "toronto";
 //check post data
-//if (isset($_GET["city"])) {
-//	$city = $_GET['city'];
+if (isset($_GET["city"])) {
+	$city = $_GET['city'];
 
-	//$city = "toronto";
+	
 
-	$result = $conn->query("SELECT * FROM `currentConditions` WHERE city = 'toronto'");
+	$result = $conn->query("SELECT * FROM `currentConditions` WHERE city = '$city'");
 
 	//check for empty data
 	if(!empty($result)) {
@@ -62,7 +62,7 @@ $respnse = array();
 
 	}
 	
-/*} else {
+} else {
 		//no data found
 		$response["success"] = 0;
 		$response["message"] = "required fields is missing";
@@ -71,6 +71,6 @@ $respnse = array();
 
 	}
 
-}*/
+
 
 ?>

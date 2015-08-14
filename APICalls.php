@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ .'/db_connect.php';
-$db = new DB_CONNECT();
-$conn = $db->connect();
+//require_once __DIR__ .'/db_connect.php';
+//$db = new DB_CONNECT();
+//$conn = $db->connect();
 
 $count = 0;
 
@@ -10,8 +10,8 @@ $count = 0;
 $sql = "SELECT  city, latitude, longtitude FROM locations";
 $result = $conn->query($sql);
 
-$sql = "SELECT  TIME FROM currentCondtions";
-$lastUpdate = $conn->query($sql);
+//$sql = "SELECT  TIME FROM currentCondtions";
+//$lastUpdate = $conn->query($sql);
 
 if ($result->num_rows > 0) 
 {
@@ -77,12 +77,14 @@ while ($tempCount < $count)
 		    			precipProb = '$PrecipitationProbability', cloudCover = '$CloudCover'   
 		    		WHERE city = '$city[$tempCount]'";
 
-		if ($conn->query($sql) === TRUE) 
+		 $conn->query($sql);
+
+		/*if ($conn->query($sql) === TRUE) 
 		{
 		    echo "successfully";
 		} else {
 		    echo "Error updating table: " . $conn->error;
-		}
+		}*/
 	//}
 	$tempCount++;
 }

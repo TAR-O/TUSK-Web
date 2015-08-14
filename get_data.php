@@ -4,38 +4,37 @@ $db = new DB_CONNECT();
 $conn = $db->connect();
 
 $respnse = array();
-$city = "toronto";
+$cityRetrived = "toronto";
 //check post data
 if (isset($_GET["city"])) {
-	$city = $_GET['city'];
+	$cityRetrived = $_GET['city'];
 
-	
-
-	$result = $conn->query("SELECT * FROM `currentConditions` WHERE city = '$city'");
+	require_once __DIR__ .'/APICalls.php';
+	$result2 = $conn->query("SELECT * FROM `currentConditions` WHERE city = '$cityRetrived'");
 
 	//check for empty data
-	if(!empty($result)) {
+	if(!empty($result2)) {
 
-		if($result->num_rows > 0){
+		if($result2->num_rows > 0){
 
 
-			$result = mysqli_fetch_array($result);
+			$result2 = mysqli_fetch_array($result2);
 
 			$data = array();
-			$data["city"] = $result["city"];
-			$data["temp"] = $result["temp"];
-			$data["apparantTemp"] = $result["apparantTemp"];
-			$data["summary"] = $result["summary"];
-			$data["icon"] = $result["icon"];
-			$data["time"] = $result["time"];
-			$data["pressure"] = $result["pressure"];
-			$data["dewPoint"] = $result["dewPoint"];
-			$data["humidity"] = $result["humidity"];
-			$data["windSpeed"] = $result["windSpeed"];
-			$data["windBearing"]= $result["windBearing"];
-			$data["precipType"] = $result["precipType"];
-			$data["precipProb"] = $result["precipProb"];
-			$data["cloudCover"] = $result["cloudCover"];
+			$data["city"] = $result2["city"];
+			$data["temp"] = $result2["temp"];
+			$data["apparantTemp"] = $result2["apparantTemp"];
+			$data["summary"] = $result2["summary"];
+			$data["icon"] = $result2["icon"];
+			$data["time"] = $result2["time"];
+			$data["pressure"] = $result2["pressure"];
+			$data["dewPoint"] = $result2["dewPoint"];
+			$data["humidity"] = $result2["humidity"];
+			$data["windSpeed"] = $result2["windSpeed"];
+			$data["windBearing"]= $result2["windBearing"];
+			$data["precipType"] = $result2["precipType"];
+			$data["precipProb"] = $result2["precipProb"];
+			$data["cloudCover"] = $result2["cloudCover"];
 			//success
 			$response["success"] = 1;
 

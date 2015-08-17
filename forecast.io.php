@@ -80,28 +80,43 @@ class ForecastIO
             return false;
         }
     }
+    /* Will return the current conditions
+     * Will return conditions on hourly basis for today
+     * Will return daily conditions for next seven days
+    */
     public function getArray($latitude, $longitude)
     {
-        return $array = array($this->getCurrentConditions($latitude,$longitude),$this->getForecastToday($latitude,$longitude),$this->getForecastWeek($latitude,$longitude));
-
-
-    }
-    /**
-     * Will return the current conditions
-     *
-     * @param float $latitude
-     * @param float $longitude
-     * @return \ForecastIOConditions|boolean
-     */
-    public function getCurrentConditions($latitude, $longitude)
-    {
         $data = $this->requestData($latitude, $longitude);
+        //$arrayAll
         if ($data !== false) {
-            return new ForecastIOConditions($data->currently);
+            //currently
+            $currently = new ForecastIOConditions($data->currently);
+            //today
+            $conditionsDaily = array();
+            $today = date('Y-m-d');
+            foreach ($data->hourly->data as $raw_data) {
+                if (date('Y-m-d', $raw_data->time) == $today) {
+                    $conditionsDaily[] = new ForecastIOConditions($raw_data);
+                }
+            }
+            //week
+            $conditionsWeekly = array();
+            foreach ($data->daily->data as $raw_data) {
+                $conditionsWeekly[] = new ForecastIOConditions($raw_data);
+            }
+           //store into array
+            $arrayDataList = array($currently, $ConditionsDaily, $conditionsWeekly);
+
+            return $arrayDataList;
+            
+
         } else {
             return false;
         }
+
+         
     }
+    
     /**
      * Will return historical conditions for day of given timestamp
      *
@@ -120,49 +135,7 @@ class ForecastIO
             return null;
         }
     }
-    /**
-     * Will return conditions on hourly basis for today
-     *
-     * @param type $latitude
-     * @param type $longitude
-     * @return \ForecastIOConditions|boolean
-     */
-    public function getForecastToday($latitude, $longitude)
-    {
-        $data = $this->requestData($latitude, $longitude);
-        if ($data !== false) {
-            $conditions = array();
-            $today = date('Y-m-d');
-            foreach ($data->hourly->data as $raw_data) {
-                if (date('Y-m-d', $raw_data->time) == $today) {
-                    $conditions[] = new ForecastIOConditions($raw_data);
-                }
-            }
-            return $conditions;
-        } else {
-            return false;
-        }
-    }
-    /**
-     * Will return daily conditions for next seven days
-     *
-     * @param float $latitude
-     * @param float $longitude
-     * @return \ForecastIOConditions|boolean
-     */
-    public function getForecastWeek($latitude, $longitude)
-    {
-        $data = $this->requestData($latitude, $longitude);
-        if ($data !== false) {
-            $conditions = array();
-            foreach ($data->daily->data as $raw_data) {
-                $conditions[] = new ForecastIOConditions($raw_data);
-            }
-            return $conditions;
-        } else {
-            return false;
-        }
-    }
+    
 }
 /**
  * Wrapper for get data by getters

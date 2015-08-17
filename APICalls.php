@@ -40,21 +40,20 @@ $tempCount=0;
 
 while ($tempCount < $count)
 {
-	//getting data
-	$condition = $forecast->getCurrentConditions($Latitude[$tempCount], $Longtitude[$tempCount]);
-	$temperature = $condition->getTemperature();
-	$ApparentTemp = $condition->getApparentTemperature();
-	$Summary = $condition->getSummary();
-	$Icon = $condition->getIcon();
-	$Time = $condition->getTime();
-	$Pressure = $condition->getPressure();
-	$DewPoint = $condition->getDewPoint();
-	$Humidity = $condition->getHumidity();
-	$WindSpeed = $condition->getWindSpeed();
-	$WindBearing = $condition->getWindBearing();
-	$PrecipitationType = $condition->getPrecipitationType();
-	$PrecipitationProbability = $condition->getPrecipitationProbability();
-	$CloudCover  = $condition->getCloudCover();
+	//getting data array
+	$arrayData = $forecast->getArray($Latitude[$tempCount], $Longtitude[$tempCount]);
+	$temperature = $arrayData[0]->getTemperature();
+	$ApparentTemperature = $arrayData[0]->getApparentTemperature();
+	$Summary = $arrayData[0]->getSummary();
+	$Icon = $arrayData[0]->getIcon();
+	$Time = $arrayData[0]->getTime();
+	$ressure = $arrayData[0]->getPressure();
+	$DewPoint = $arrayData[0]->getDewPoint();
+	$WindSpeed = $arrayData[0]->getWindSpeed();
+	$WindBearing = $arrayData[0]->getWindBearing();
+	$PrecipitationType = $arrayData[0]->getPrecipitationType();
+	$PrecipitationProbability = $arrayData[0]->getPrecipitationProbability();
+	$CloudCover  = $arrayData[0]->getCloudCover();
 
 	/*if(empty($lastUpdate)){
 	//inserting data into sql

@@ -8,6 +8,9 @@ $conn = $db ->connect();
 $sql = "INSERT INTO LOCATIONS (city, provState, country, latitude, longtitude)
 VALUES ('Toronto', 'Ontario', 'Canada', 43.7, 79.4)";
 
+$sql = "INSERT INTO LOCATIONS (city, provState, country, latitude, longtitude)
+VALUES ('Waterloo', 'Ontario', 'Canada', 43.46, -80.5)";
+
 if ($conn->query($sql) === TRUE) {
     echo "Toronto data inserted successfully";
 } else {

@@ -25,6 +25,34 @@ cloudCover float(50) NOT NULL,
 reg_date TIMESTAMP
 )";
 
+     
+
+
+	 $day++;
+//sql to create weather table
+$sql = "CREATE TABLE currentConditions (
+id INT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+city VARCHAR(50) NOT NULL,
+province VARCHAR(50) NOT NULL,
+country VARCHAR(50) NOT NULL,
+tempW float(20) NOT NULL,
+summaryW VARCHAR(50) not NULL,
+iconW VARCHAR(50) NOT NULL,
+dateW float(50) NOT NULL,
+pressureW float(30) NOT NULL,
+dewPointW float(50) not NULL,
+humidityW float(50) NOT NULL,
+windSpeedW float(50) NOT NULL,
+windBearingW float(30) NOT NULL,
+precipTypeW VARCHAR(50) not NULL,
+precipProbW float(50) NOT NULL,
+cloudCoverW float(50) NOT NULL,
+maxTempW float(50) NOT NULL,
+minTempW float(50) NOT NULL,
+sunRise float(50) NOT NULL,
+sunSet float(50) NOT NULL,
+reg_date TIMESTAMP
+)";
 
 
 if ($conn->query($sql) === TRUE) {

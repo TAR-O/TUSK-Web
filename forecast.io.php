@@ -106,14 +106,11 @@ class ForecastIO
             }
            //store into array
             $arrayDataList = array($currently, $ConditionsDaily, $conditionsWeekly);
-
             return $arrayDataList;
             
-
         } else {
             return false;
         }
-
          
     }
     
@@ -312,6 +309,7 @@ class ForecastIOConditions
             return date($format, $this->raw_data->sunriseTime);
         }
     }
+
     /**
      * get sunset time
      *
@@ -330,3 +328,4 @@ class ForecastIOConditions
         }
     }
 }
+?>

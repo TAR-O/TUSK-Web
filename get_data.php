@@ -1,15 +1,22 @@
 <?php
+//make database connection
 require_once __DIR__ .'/db_connect.php';
 $db = new DB_CONNECT();
 $conn = $db->connect();
 
-$respnse = array();
+//initializing response array
+$response = array();
+
+//default city value for testing web without android post
 $cityRetrived = "toronto";
-//check post data
+
+//get post data city
 if (isset($_GET["city"])) {
+
 	$cityRetrived = $_GET['city'];
 
 	require_once __DIR__ .'/APICalls.php';
+	//sql query for current conditions
 	$result2 = $conn->query("SELECT * FROM `currentConditions` WHERE city = '$cityRetrived'");
 
 	//check for empty data
@@ -17,9 +24,10 @@ if (isset($_GET["city"])) {
 
 		if($result2->num_rows > 0){
 
-
+			//getting row array from database
 			$result2 = mysqli_fetch_array($result2);
 
+			//storing row into data arrary
 			$data = array();
 			$data["city"] = $result2["city"];
 			$data["temp"] = $result2["temp"];
